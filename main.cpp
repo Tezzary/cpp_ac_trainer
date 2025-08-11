@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 #include "offsets.h"
 #include "memory.h"
@@ -40,14 +41,20 @@ int main() {
 
     std::cout << "Gathered Handle to process: " << processName << std::endl;
 
-    uintptr_t playerAddress = readMemory<uintptr_t>(handle, moduleBaseAddress + lOCAL_PLAYER);
+    uintptr_t localPlayerAddress = readMemory<uintptr_t>(handle, moduleBaseAddress + lOCAL_PLAYER);
+    Player localPlayer = Player(handle, localPlayerAddress);
 
-    Player player = Player(handle, playerAddress);
+    int playerCount = readMemory<int>(handle, moduleBaseAddress + PLAYER_COUNT);
+    std::cout << "Player count: " << playerCount;
 
-    std::cout << "Player has: " << player.GetHealth() << " health" << std::endl;
+    uintptr_t entityList = readMemory<uintptr_t>(handle, moduleBaseAddress + ENTITY_LIST);
+    //skip i = 0 as for some reason entity pointers start after 4 bytes
 
-    player.SetHealth(handle, 555);
-
-    std::cout << "Player has: " << player.GetHealth() << " health" << std::endl;
+    std::vector<Player> players;
+    for(int i = 1; i < playerCount; ++i) {
+        uintptr_t playerAddress = readMemory<uintptr_t>(handle, entityList + i*4);
+        Player player = Player(handle, playerAddress);
+        players.push_back(player);
+    }
     return 0;
 }
