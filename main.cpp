@@ -23,7 +23,7 @@ int main() {
 
     std::cout << "Gathered Process ID of " << processName << ": " << procId << std::endl;
 
-    uintptr_t moduleBaseAddress = GetModuleBaseAddress(procId, moduleName);
+    uint32_t moduleBaseAddress = GetModuleBaseAddress(procId, moduleName);
     if(moduleBaseAddress == 0) {
         std::cout << "Could not find module: " << std::endl;
         std::cout << moduleName;
@@ -44,7 +44,7 @@ int main() {
 
     std::cout << "Gathered Handle to process: " << processName << std::endl;
 
-    uintptr_t localPlayerAddress = readMemory<uintptr_t>(handle, moduleBaseAddress + lOCAL_PLAYER);
+    uint32_t localPlayerAddress = readMemory<uint32_t>(handle, moduleBaseAddress + lOCAL_PLAYER);
     Player localPlayer = Player(handle, localPlayerAddress);
 
 
@@ -52,14 +52,18 @@ int main() {
     int playerCount = readMemory<int>(handle, moduleBaseAddress + PLAYER_COUNT);
     std::cout << "Player count: " << playerCount << std::endl;
 
-    uintptr_t entityList = readMemory<uintptr_t>(handle, moduleBaseAddress + ENTITY_LIST);
-
+   // std::cout << sizeof(int) << std::endl;
+    uint32_t entityList = readMemory<uint32_t>(handle, moduleBaseAddress + ENTITY_LIST);
+    //std::cout << entityList << std::endl;
     localPlayer.Print();
     //skip i = 0 as for some reason entity pointers start after 4 bytes
     std::vector<Player> players;
     for(int i = 1; i < playerCount; ++i) {
-        uintptr_t playerAddress = readMemory<uintptr_t>(handle, entityList + i*4);
+       // std::cout << entityList + i*4 << std::endl;
+        uint32_t playerAddress = readMemory<uint32_t>(handle, entityList + i*4);
+       // std::cout << playerAddress << std::endl;
         Player player = Player(handle, playerAddress);
+       // std::cout<< player.position.x << " " << player.position.y << " " << player.position.z << std::endl;
         players.push_back(player);
     }
 
@@ -75,29 +79,28 @@ int main() {
 
         float closestDistance = 1 << 16;
         Player closest;
-        int ci = -1;
         for(int i = 0; i < playerCount-1; ++i) {
             Player& player = players[i];
             Vector3 difference = player.position - localPlayer.position;
+          //  std::cout<< player.position.x << " " << player.position.y << " " << player.position.z << std::endl;
             float distance = difference.GetLength();
+           // std::cout << distance << std:: endl;
             if(distance < closestDistance) {
                 closestDistance = distance;
                 closest = player;
-                ci = i;
             }
         }
-        std::cout << ci << std::endl;
 
         Vector3 difference = closest.position - localPlayer.position;
         
-        float xAngle = atan2(difference.z, difference.x) + M_PI;
-        float yAngle = atan2(difference.y, difference.x + difference.z);
+        float xAngle = atan2(-difference.z, difference.x) + M_PI;
+        float yAngle = atan2(difference.y, sqrt(difference.x * difference.x + difference.z * difference.z));
 
         localPlayer.SetCameraX(handle, xAngle * 180 / M_PI);
-        //localPlayer.SetCameraY(handle, yAngle);
-
+        localPlayer.SetCameraY(handle, yAngle * 180 / M_PI);
+        std::cout << yAngle * 180 / M_PI << std::endl;
         localPlayer.Print();
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
     }
     localPlayer.Print();
     return 0;
