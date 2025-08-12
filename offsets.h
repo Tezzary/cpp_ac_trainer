@@ -16,7 +16,7 @@ const uintptr_t HEAD_Y_POSITION = 0xC;
 const uintptr_t HEAD_Z_POSITION = 0x8;
 
 const uintptr_t CAMERA_X = 0x34;
-const uintptr_t CAMERA_y = 0x38;
+const uintptr_t CAMERA_Y = 0x38;
 
 const uintptr_t ASSAULT_RIFLE_AMMO = 0x140;
 const uintptr_t SMG_AMMO = 0x138;

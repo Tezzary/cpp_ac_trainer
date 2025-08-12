@@ -10,7 +10,7 @@ HANDLE getProcessHandle(DWORD procId);
 
 template <typename T> T readMemory(HANDLE handle, uintptr_t address) {
     T buffer;
-    ReadProcessMemory(handle, (PCVOID)address, &buffer, sizeof(buffer), nullptr);
+    ReadProcessMemory(handle, (PVOID)address, &buffer, sizeof(buffer), nullptr);
     return buffer;
 }
 

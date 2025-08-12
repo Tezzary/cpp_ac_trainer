@@ -8,14 +8,20 @@ class Player {
         int health;
         int ammo;
         int team;
+        float cameraX;
+        float cameraY;
+    public:
         Vector3 position;
         Vector3 headPosition;
-    public:
+
+        Player();
         Player(HANDLE handle, uintptr_t address);
         void UpdateData(HANDLE handle);
         int GetHealth();
         void SetHealth(HANDLE handle, int health);
         int GetAmmo();
         void SetAmmo(HANDLE handle, int ammo);
+        void SetCameraX(HANDLE handle, float angle);
+        void SetCameraY(HANDLE handle, float angle);
         void Print();
 };

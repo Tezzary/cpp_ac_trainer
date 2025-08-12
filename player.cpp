@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 
+Player::Player() {}
 Player::Player(HANDLE handle, uintptr_t address) : address(address) {
     UpdateData(handle);
 }
@@ -19,6 +20,9 @@ void Player::UpdateData(HANDLE handle) {
     headPosition.x = readMemory<float>(handle, address + HEAD_X_POSITION);
     headPosition.y = readMemory<float>(handle, address + HEAD_Y_POSITION);
     headPosition.z = readMemory<float>(handle, address + HEAD_Z_POSITION);
+
+    cameraX = readMemory<float>(handle, address + CAMERA_X);
+    cameraY = readMemory<float>(handle, address + CAMERA_Y);
 }
 
 int Player::GetHealth() {
@@ -39,6 +43,14 @@ void Player::SetAmmo(HANDLE handle, int ammo) {
     writeMemory(handle, address + ASSAULT_RIFLE_AMMO, ammo);
 }
 
+void Player::SetCameraX(HANDLE handle, float angle) {
+    writeMemory(handle, address + CAMERA_X, angle);
+}
+
+void Player::SetCameraY(HANDLE handle, float angle) {
+    writeMemory(handle, address + CAMERA_Y, angle);
+}
+
 std::string PrintLine(std::string str, int lineLength) {
     int len = str.size();
     for(int i = 0; i < lineLength - len; ++i) {
@@ -54,5 +66,8 @@ void Player::Print() {
     std::cout << PrintLine("|   X: " + std::to_string(position.x), 28) << " |" << std::endl;
     std::cout << PrintLine("|   Y: " + std::to_string(position.y), 28) << " |" << std::endl;
     std::cout << PrintLine("|   Z: " + std::to_string(position.z), 28) << " |" << std::endl;
+    std::cout << PrintLine("| Camera: ", 28) << " |" << std::endl;
+    std::cout << PrintLine("|   X: " + std::to_string(cameraX), 28) << " |" << std::endl;
+    std::cout << PrintLine("|   Y: " + std::to_string(cameraY), 28) << " |" << std::endl;
     std::cout << "-----------------------------" << std::endl;
 }
