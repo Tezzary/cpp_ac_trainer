@@ -4,7 +4,7 @@
 #include "offsets.h"
 #include "memory.h"
 #include "player.h"
-
+#include "utils.h"
 const char* processName = "ac_client.exe";
 const char* moduleName = "ac_client.exe";
 
@@ -45,7 +45,7 @@ int main() {
     Player localPlayer = Player(handle, localPlayerAddress);
 
     int playerCount = readMemory<int>(handle, moduleBaseAddress + PLAYER_COUNT);
-    std::cout << "Player count: " << playerCount;
+    std::cout << "Player count: " << playerCount << std::endl;
 
     uintptr_t entityList = readMemory<uintptr_t>(handle, moduleBaseAddress + ENTITY_LIST);
     //skip i = 0 as for some reason entity pointers start after 4 bytes
@@ -56,5 +56,6 @@ int main() {
         Player player = Player(handle, playerAddress);
         players.push_back(player);
     }
+    localPlayer.Print();
     return 0;
 }

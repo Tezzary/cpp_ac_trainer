@@ -1,6 +1,9 @@
 #include "player.h"
 #include "offsets.h"
 
+#include <iostream>
+#include <string>
+
 Player::Player(HANDLE handle, uintptr_t address) : address(address) {
     UpdateData(handle);
 }
@@ -8,6 +11,14 @@ Player::Player(HANDLE handle, uintptr_t address) : address(address) {
 void Player::UpdateData(HANDLE handle) {
     health = readMemory<int>(handle, address + HEALTH);
     ammo = readMemory<int>(handle, address + ASSAULT_RIFLE_AMMO);
+
+    position.x = readMemory<float>(handle, address + X_POSITION);
+    position.y = readMemory<float>(handle, address + Y_POSITION);
+    position.z = readMemory<float>(handle, address + Z_POSITION);
+
+    headPosition.x = readMemory<float>(handle, address + HEAD_X_POSITION);
+    headPosition.y = readMemory<float>(handle, address + HEAD_Y_POSITION);
+    headPosition.z = readMemory<float>(handle, address + HEAD_Z_POSITION);
 }
 
 int Player::GetHealth() {
@@ -26,4 +37,22 @@ int Player::GetAmmo() {
 
 void Player::SetAmmo(HANDLE handle, int ammo) {
     writeMemory(handle, address + ASSAULT_RIFLE_AMMO, ammo);
+}
+
+std::string PrintLine(std::string str, int lineLength) {
+    int len = str.size();
+    for(int i = 0; i < lineLength - len; ++i) {
+        str += " ";
+    }
+    return str;
+}
+void Player::Print() {
+    std::cout << "------------Player-----------" << std::endl;
+    std::cout << PrintLine("| Health: " + std::to_string(health), 28) << " |" << std::endl;
+    std::cout << PrintLine("| Ammo: " + std::to_string(ammo), 28) << " |" << std::endl;
+    std::cout << PrintLine("| Position: ", 28) << " |" << std::endl;
+    std::cout << PrintLine("|   X: " + std::to_string(position.x), 28) << " |" << std::endl;
+    std::cout << PrintLine("|   Y: " + std::to_string(position.y), 28) << " |" << std::endl;
+    std::cout << PrintLine("|   Z: " + std::to_string(position.z), 28) << " |" << std::endl;
+    std::cout << "-----------------------------" << std::endl;
 }

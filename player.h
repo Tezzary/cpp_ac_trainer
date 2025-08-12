@@ -1,13 +1,7 @@
 #pragma once
 
 #include "memory.h"
-
-class Vector3 {
-    float x;
-    float y;
-    float z;
-};
-
+#include "utils.h"
 class Player {
     private:
         uintptr_t address;
@@ -23,4 +17,5 @@ class Player {
         void SetHealth(HANDLE handle, int health);
         int GetAmmo();
         void SetAmmo(HANDLE handle, int ammo);
+        void Print();
 };
