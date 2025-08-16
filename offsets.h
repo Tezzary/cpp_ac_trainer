@@ -31,5 +31,7 @@ const uintptr_t FAST_FIRE_SHOTGUN = 0x158;
 
 const uintptr_t AUTO_SHOOT = 0x204;
 const uintptr_t HEALTH = 0xEC;
+const uintptr_t DEAD = 0x318;
+const uintptr_t TEAM = 0x30C;
 const uintptr_t ARMOUR = 0xF0;
 const uintptr_t PLAYER_NAME = 0x205;

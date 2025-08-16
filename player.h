@@ -8,6 +8,7 @@ class Player {
         int health;
         int ammo;
         int team;
+        bool dead;
         float cameraX;
         float cameraY;
     public:
@@ -16,12 +17,24 @@ class Player {
 
         Player();
         Player(HANDLE handle, uintptr_t address);
+
         void UpdateData(HANDLE handle);
+
         int GetHealth();
         void SetHealth(HANDLE handle, int health);
+
         int GetAmmo();
         void SetAmmo(HANDLE handle, int ammo);
+
+        int GetTeam();
+        
+        bool IsDead();
+
+        float GetCameraX(HANDLE handle);
+        float GetCameraY(HANDLE handle);
+
         void SetCameraX(HANDLE handle, float angle);
         void SetCameraY(HANDLE handle, float angle);
+
         void Print();
 };

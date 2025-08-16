@@ -3,10 +3,12 @@
 #include <windows.h>
 #include <tlhelp32.h>
 #include <string>
+#include<cstdint>
 
 DWORD getProcessId(const char* processName);
 uintptr_t GetModuleBaseAddress(DWORD procId, const char* moduleName);
 HANDLE getProcessHandle(DWORD procId);
+bool getHandleModuleBaseAddress(const char* processName, const char* moduleName, HANDLE &handle, uint32_t &moduleBaseAddress);
 
 template <typename T> T readMemory(HANDLE handle, uintptr_t address) {
     T buffer;

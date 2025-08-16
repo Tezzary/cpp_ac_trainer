@@ -12,7 +12,9 @@ Player::Player(HANDLE handle, uintptr_t address) : address(address) {
 void Player::UpdateData(HANDLE handle) {
     health = readMemory<int>(handle, address + HEALTH);
     ammo = readMemory<int>(handle, address + ASSAULT_RIFLE_AMMO);
-
+    team = readMemory<int>(handle, address + TEAM);
+    dead = readMemory<bool>(handle, address + DEAD);
+    
     position.x = readMemory<float>(handle, address + X_POSITION);
     position.y = readMemory<float>(handle, address + Y_POSITION);
     position.z = readMemory<float>(handle, address + Z_POSITION);
@@ -43,12 +45,31 @@ void Player::SetAmmo(HANDLE handle, int ammo) {
     writeMemory(handle, address + ASSAULT_RIFLE_AMMO, ammo);
 }
 
+int Player::GetTeam() {
+    return team;
+}
+bool Player::IsDead() {
+    return dead;
+}
+
+float Player::GetCameraX(HANDLE handle) {
+    return cameraX;
+}
+
+float Player::GetCameraY(HANDLE handle) {
+    return cameraY;
+}
+
 void Player::SetCameraX(HANDLE handle, float angle) {
-    writeMemory(handle, address + CAMERA_X, angle);
+    if(writeMemory(handle, address + CAMERA_X, angle)) {
+        cameraX = angle;
+    }
 }
 
 void Player::SetCameraY(HANDLE handle, float angle) {
-    writeMemory(handle, address + CAMERA_Y, angle);
+    if(writeMemory(handle, address + CAMERA_Y, angle)) {
+        cameraY = angle;
+    }
 }
 
 std::string PrintLine(std::string str, int lineLength) {

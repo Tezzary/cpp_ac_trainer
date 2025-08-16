@@ -9,6 +9,12 @@ float Vector3::GetLength() {
     return sqrt((*this)*(*this));
 }
 
+float Vector3::CosineDistance(Vector3 other) {
+    float dotProduct = (*this) * other;
+    float cosineDistance = dotProduct / (GetLength() * other.GetLength());
+    return cosineDistance;
+}
+
 Vector3 Vector3::operator+(Vector3 other) {
     return Vector3(this->x + other.x, this->y + other.y, this->z + other.z);
 }
