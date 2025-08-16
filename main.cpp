@@ -13,9 +13,10 @@
 const char* processName = "ac_client.exe";
 const char* moduleName = "ac_client.exe";
 
-const float cosineWeight = 0.9995;
-//const char aimbotKey = VK_XBUTTON1; //side mouse button
-const char aimbotKey = 'X'; //side mouse button
+//const float cosineWeight = 0.9995;
+const float cosineWeight = 0.0;
+const char aimbotKey = VK_XBUTTON1; //side mouse button
+//const char aimbotKey = 'X'; //side mouse button
 
 Player& getClosestPlayerToCrosshair(HANDLE handle, std::vector<Player> &players, Player &localPlayer) {
     float xAngle = localPlayer.GetCameraX(handle);
@@ -113,8 +114,9 @@ int main() {
         }
 
         localPlayer.SetAmmo(handle, 20);
+        localPlayer.SetHealth(handle, 1000);
 
-        if(isKeyToggled(aimbotKey)) {
+        if(isKeyToggled(aimbotKey, false)) {
             aimbot(handle, players, localPlayer);
         }
 
