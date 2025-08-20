@@ -3,17 +3,17 @@ mkdir build
 g++ ^
 imgui/imgui.cpp ^
 imgui/imgui_draw.cpp ^
-imgui/backends/imgui_impl_win32.cpp ^
-imgui/backends/imgui_impl_dx11.cpp ^
+imgui/backends/imgui_impl_glfw.cpp ^
+imgui/backends/imgui_impl_opengl3.cpp ^
 imgui/imgui_widgets.cpp ^
 imgui/imgui_tables.cpp ^
-src/memory.cpp ^
-src/player.cpp ^
-src/utils.cpp ^
-src/keymanager.cpp ^
-src/main.cpp ^
+src/*.cpp ^
 -Iimgui ^
+-Iimgui/backends ^
+-Iglfw/include ^
+-Lglfw/lib-mingw-w64 ^
+-lglfw3 -lopengl32 -lgdi32 -limm32 ^
 -o build/main.exe ^
--lgdi32 -ldwmapi -luser32 -ld3dcompiler
+
 
 .\build\main.exe
