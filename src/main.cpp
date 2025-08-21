@@ -1,6 +1,9 @@
 #include "trainer.h"
 #include "guimanager.h"
 
+#include <thread>
+
 int main() {
-    run();
+    std::thread t(run);
+    StartUI();
 }

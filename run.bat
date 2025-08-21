@@ -13,7 +13,7 @@ src/*.cpp ^
 -Iglfw/include ^
 -Lglfw/lib-mingw-w64 ^
 -lglfw3 -lopengl32 -lgdi32 -limm32 ^
--o build/main.exe ^
+-o build/main.exe
 
 
 .\build\main.exe
