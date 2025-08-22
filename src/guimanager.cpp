@@ -1,4 +1,6 @@
 #include "guimanager.h"
+#include "keymanager.h"
+
 #include <windows.h>
 
 void StartUI()
@@ -11,7 +13,7 @@ void StartUI()
     int width  = 500; // GetSystemMetrics(SM_CXSCREEN);
     int height = 400; // GetSystemMetrics(SM_CYSCREEN);
 
-    GLFWwindow* window = glfwCreateWindow(width, height, "Minimal ImGui", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(width, height, "Assault Cube Trainer", nullptr, nullptr);
     glfwHideWindow(window);
 
     glfwMakeContextCurrent(window);
@@ -22,6 +24,8 @@ void StartUI()
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
+    Setting setting;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -38,7 +42,12 @@ void StartUI()
                                  ImGuiWindowFlags_NoCollapse;
 
         ImGui::Begin("Hello", nullptr, flags);
-        ImGui::Text("Minimal boilerplate!");
+
+
+        ImGui::Text("Settings");
+
+        ImGui::Button("Bind Key");
+
         ImGui::End();
 
         ImGui::Render();
