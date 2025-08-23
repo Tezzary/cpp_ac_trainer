@@ -8,7 +8,7 @@
 #include "memory.h"
 #include "player.h"
 #include "utils.h"
-#include "keymanager.h"
+#include "settingsmanager.h"
 #include "trainer.h"
 
 const char* processName = "ac_client.exe";

@@ -4,19 +4,19 @@
 #include <string>
 
 struct Key {
-    std::string keyName;
+    char keyName[32];
     char keyCode;
 }; 
 
-struct Setting {
-    std::string settingName;
-    bool enabled;
-    Key key;
-    bool toggle;
-    float value;
-    float min;
-    float max;
+struct Settings {
+    bool aimbotEnabled = true;
+    bool toggle = true;
+    Key aimbotKey = {"A", 'A'};
+
 };
+
+void SaveSettings(Settings settings);
+Settings LoadSettings();
 
 Key GetKeyToBind();
 

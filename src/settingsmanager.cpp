@@ -1,8 +1,9 @@
-#include "keymanager.h"
+#include "settingsmanager.h"
 
 #include <windows.h>
 #include <iostream>
 #include <bitset>
+#include <fstream>
 
 //https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
 
@@ -58,4 +59,25 @@ Key GetKeyToBind() {
         }
     }
     return {"", ' '};
+}
+
+void SaveSettings(Settings settings) {
+    return;
+    std::ofstream oFS("ac_trainer.data", std::ios::binary);
+    oFS.write((char*)&settings, sizeof(Settings));
+}
+
+Settings LoadSettings() {
+    Settings settings;
+    return settings;
+    std::ifstream iFS("ac_trainer.data", std::ios::binary);
+    if(!iFS.is_open()) {
+        SaveSettings(settings);
+        return settings;
+    }
+    iFS.read((char*)(&settings), sizeof(Settings));
+
+    iFS.close();
+
+    return settings;
 }
