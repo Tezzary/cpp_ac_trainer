@@ -62,16 +62,16 @@ Key GetKeyToBind() {
 }
 
 void SaveSettings(Settings settings) {
-    return;
     std::ofstream oFS("ac_trainer.data", std::ios::binary);
+    std::cout << "Saved settings" << std::endl;
     oFS.write((char*)&settings, sizeof(Settings));
 }
 
 Settings LoadSettings() {
     Settings settings;
-    return settings;
     std::ifstream iFS("ac_trainer.data", std::ios::binary);
     if(!iFS.is_open()) {
+        std::cout << "Failed to load settings" << std::endl;
         SaveSettings(settings);
         return settings;
     }
