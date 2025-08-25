@@ -1,7 +1,6 @@
 #include "guimanager.h"
 #include "settingsmanager.h"
 
-#include <windows.h>
 #include "misc/cpp/imgui_stdlib.h"
 #include <cstring>
 
@@ -16,9 +15,11 @@ void StartUI()
     int height = 400; // GetSystemMetrics(SM_CYSCREEN);
 
     GLFWwindow* window = glfwCreateWindow(width, height, "Assault Cube Trainer", nullptr, nullptr);
-    glfwHideWindow(window);
+    //glfwHideWindow(window);
 
     glfwMakeContextCurrent(window);
+
+    ImGui::SetNextWindowViewport(ImGui::GetMainViewport()->ID);
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -50,6 +51,14 @@ void StartUI()
         ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize |
                                  ImGuiWindowFlags_NoBringToFrontOnFocus |
                                  ImGuiWindowFlags_NoCollapse;
+
+
+        
+        ImGui::Begin("temp", nullptr, flags);
+        ImGui::End();
+
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
 
         ImGui::Begin("Hello", nullptr, flags);
 
@@ -86,9 +95,6 @@ void StartUI()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
 
         glfwSwapBuffers(window);
 
